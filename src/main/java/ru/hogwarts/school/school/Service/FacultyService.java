@@ -23,7 +23,7 @@ public class FacultyService {
     }
 
     public Faculty findFaculty(long id) {
-        return facultyRepository.getReferenceById(id);
+        return facultyRepository.getById(id);
     }
     public Faculty egitFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
