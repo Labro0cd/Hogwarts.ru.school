@@ -23,7 +23,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Transactional
 public class AvatarService {
 
-    @Value("path.to.avatars.folder") // ???
+    @Value("path.to.avatars.folder")
     private String avatarsDir;
 
     private final RepositoryAvatars repositoryAvatars;
