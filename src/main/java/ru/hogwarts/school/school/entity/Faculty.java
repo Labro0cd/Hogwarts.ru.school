@@ -1,49 +1,51 @@
-package ru.hogwarts.school.school.model;
+package ru.hogwarts.school.school.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-public class Student {
+public class Faculty {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
+
     private String name;
-    private int age;
+    private String color;
 
-    @ManyToOne
-    @JoinColumn(name = "faculty_id")
-    private Faculty faculty;
+    @OneToMany(mappedBy = "faculty")
+    private Collection<Student> students;
 
-    public Student() {
+    public Faculty() {
     }
 
-    public Student(long id, String name, int age) {
+    public Faculty(long id, String name, String color) {
         this.id = id;
         this.name = name;
-        this.age = age;
+        this.color = color;
     }
 
     @Override
     public String toString() {
-        return "Student{" +
+        return "Faculty{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", age=" + age +
+                ", color='" + color + '\'' +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Student student = (Student) o;
-        return id == student.id && age == student.age && Objects.equals(name, student.name);
+        Faculty faculty = (Faculty) o;
+        return id == faculty.id && Objects.equals(name, faculty.name) && Objects.equals(color, faculty.color);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, age);
+        return Objects.hash(id, name, color);
     }
 
     public long getId() {
@@ -62,11 +64,12 @@ public class Student {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
+    public String getColor() {
+        return color;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setColor(String color) {
+        this.color = color;
     }
 }
+
