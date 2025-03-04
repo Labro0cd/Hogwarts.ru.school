@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.hogwarts.school.school.Controller.StudentController;
 import ru.hogwarts.school.school.Service.StudentService;
-import ru.hogwarts.school.school.model.Student;
+import ru.hogwarts.school.school.entity.Student;
 
 import ru.hogwarts.school.school.repository.StudentRepository;
 
