@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(StudentController.class)
-public class SchoolApplicationTests2 {
+public class StudentControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -55,6 +55,7 @@ public class SchoolApplicationTests2 {
         studentObject.put("name", name); // Добавляем имя в JSON
         studentObject.put("age", age); // Добавляем возраст в JSON
 
+
         // Создание объекта Student, который будет возвращен репозиторием
         Student student = new Student();
         student.setId(id); // Устанавливаем идентификатор
@@ -63,7 +64,7 @@ public class SchoolApplicationTests2 {
 
         // Настройка mock-репозитория
         when(studentRepository.save(any(Student.class))).thenReturn(student); // Когда вызывается метод save, возвращаем созданного студента
-        when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(student));// Когда вызывается метод findById, возвращаем созданного студента
+        when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(student)); // Когда вызывается метод findById, возвращаем созданного студента
         // Выполнение HTTP-запроса и проверка результата
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/students") // Отправляем POST-запрос на эндпоинт /students
@@ -74,6 +75,7 @@ public class SchoolApplicationTests2 {
                 .andExpect(jsonPath("$.id").value(id)) // Проверяем, что в ответе поле "id" равно ожидаемому значению
                 .andExpect(jsonPath("$.name").value(name)) // Проверяем, что в ответе поле "name" равно ожидаемому значению
                 .andExpect(jsonPath("$.age").value(age)); // Проверяем, что в ответе поле "age" равно ожидаемому значению
+
     }
 
     @Test
@@ -92,17 +94,27 @@ public class SchoolApplicationTests2 {
         student.setAge(age); // Устанавливаем возраст
 
         // Настройка mock-репозитория
-        when(studentRepository.save(any(Student.class))).thenReturn(student); // Когда вызывается метод save, возвращаем созданного студента
         when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(student));// Когда вызывается метод findById, возвращаем созданного студента
         // Выполнение HTTP-запроса и проверка результата
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/students/" + id) // Отправляем GET-запрос на эндпоинт /students
+                        .get("/students/" + id) // Отправляем GET-запрос на эндпоинт /students/{id}
                         .contentType(MediaType.APPLICATION_JSON) // Указываем тип содержимого (JSON)
                         .accept(MediaType.APPLICATION_JSON)) // Указываем, что ожидаем JSON в ответе
                 .andExpect(status().isOk()) // Проверяем, что статус ответа 200 OK
                 .andExpect(jsonPath("$.id").value(id)) // Проверяем, что в ответе поле "id" равно ожидаемому значению
                 .andExpect(jsonPath("$.name").value(name)) // Проверяем, что в ответе поле "name" равно ожидаемому значению
-                .andExpect(jsonPath("$.age").value(age)); // Проверяем, что в ответе поле "age" равно ожидаемому значению
+                .andExpect(jsonPath("$.age").value(age));// Проверяем, что в ответе поле "age" равно ожидаемому значению
+    }
+
+    @Test
+    public void NotFoundStudent() throws Exception{
+        long id = 999L;
+
+        when(studentRepository.findById(eq(id))).thenReturn(Optional.empty());
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/students/" + id)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test

@@ -1,6 +1,7 @@
 package ru.hogwarts.school.school.Service;
 
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.school.Exception.FacultyNotFoundException;
 import ru.hogwarts.school.school.model.Faculty;
 import ru.hogwarts.school.school.repository.FacultyRepository;
 
@@ -23,7 +24,7 @@ public class FacultyService {
     }
 
     public Faculty findFaculty(long id) {
-        return facultyRepository.getById(id);
+        return facultyRepository.findById(id).orElseThrow(() -> new FacultyNotFoundException("Faculty wasn't found"));
     }
     public Faculty egitFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
