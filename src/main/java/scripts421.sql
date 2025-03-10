@@ -8,24 +8,9 @@ ALTER TABLE faculty ADD CONSTRAINT name_f_unique UNIQUE (name, color)
 
 ALTER TABLE student ALTER COLUMN age SET DEFAULT 20
 
-
-CREATE TABLE personal (
-id INTEGER,
-name TEXT PRIMARY KEY,
-age INTEGER CHECK (age>0),
-rights BOOLEAN NOT NULL DEFAULT false,
-car_id TEXT REFERENCES car (id)
-)
-
-CREATE TABLE car (
-id INTEGER PRIMARY KEY,
-mark VARCHAR(100) UNIQUE not NUll,
-model VARCHAR (100) UNIQUE NOT null,
-prise INTEGER not null
-)
-
 select s.name, s.age, f.name
 from student s, faculty f
 
-select * from student s
-where avatar_id is not null
+select student.name, student.avatar_id, avatar.media_type
+from student
+INNER join avatar on student.avatar_id = avatar.id
