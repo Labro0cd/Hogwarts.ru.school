@@ -19,4 +19,11 @@ public class InfoController {
     public String getPort() {
         return infoServiceProduction.getPort();
     }
+
+    @GetMapping("/getSum_1_000_000")
+    public int getSum_1_000_000() {
+        return infoServiceProduction.getSum_1_000_000();
+    }
+
+
 }

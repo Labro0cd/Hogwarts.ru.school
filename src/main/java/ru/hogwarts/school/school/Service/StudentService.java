@@ -7,9 +7,10 @@ import ru.hogwarts.school.school.Exception.StudentNotFoundException;
 import ru.hogwarts.school.school.entity.Student;
 import ru.hogwarts.school.school.repository.StudentRepository;
 
-import javax.swing.plaf.PanelUI;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 import static java.util.stream.Collectors.toList;
@@ -59,7 +60,7 @@ public class StudentService {
         return studentRepository.findByAgeBetween(min, max);
     }
 
-    public Collection<Student> findAllStudent() {
+    public Collection<Student> findAll() {
         logger.info("Method called : findAllStudent on StudentService");
         return studentRepository.findAll();
     }
@@ -77,5 +78,22 @@ public class StudentService {
     public List<Student> LastFiveStudents() {
         logger.info("Method called : LastFiveStudents on StudentService");
         return studentRepository.lastFiveStudents();
+    }
+
+    public List<Student> filterNamesStartingWithA() {
+        return findAll().stream()
+                .filter(p -> p.getName() != null && p.getName().startsWith("A"))
+                .sorted(Comparator.comparing(Student::getName))
+                .collect(Collectors.toList());
+    }
+
+    public Double findMiddleAge() {
+        logger.info("Method called : findMiddleAge on StudentService");
+        double avg = findAll().stream()
+                .map(Student::getAge)
+                .mapToInt(Integer::intValue)
+                .average()
+                .orElse(0.0);
+        return avg;
     }
 }

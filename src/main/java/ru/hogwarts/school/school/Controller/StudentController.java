@@ -30,7 +30,7 @@ public class StudentController {
         if (min != 0 || max != 0) {
             return ResponseEntity.ok(service.findByAgeBetween(min, max));
         }
-        return ResponseEntity.ok(service.findAllStudent());
+        return ResponseEntity.ok(service.findAll());
     }
 
     @PostMapping
@@ -72,5 +72,15 @@ public class StudentController {
     @GetMapping("lastFiveStudents")
     public List<Student> lastFiveStudents() {
         return service.LastFiveStudents();
+    }
+
+    @GetMapping("allStudentNameStarringWithA")
+    public List<Student> allStudentNameStarringWithA() {
+        return service.filterNamesStartingWithA();
+    }
+
+    @GetMapping("findAverageStudentAge")
+    public double findAverageStudentAge() {
+        return service.findMiddleAge();
     }
 }
