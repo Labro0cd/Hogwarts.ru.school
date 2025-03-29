@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Profile("production")
 public class InfoServiceProduction implements InfoService {
 
-    @Value("{$server.port}")
+    @Value("${server.port}")
     private String port;
 
     @Override
