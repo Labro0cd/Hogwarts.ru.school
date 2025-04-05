@@ -10,6 +10,7 @@ import ru.hogwarts.school.school.entity.Faculty;
 
 
 import java.util.Collection;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("faculty")
@@ -49,5 +50,10 @@ public class FacultyController {
     @ExceptionHandler(FacultyNotFoundException.class)
     public ResponseEntity<String> handleFacultyNotFoundException(FacultyNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @GetMapping("findLongestNameFaculty")
+    public Optional<String> findLongestNameFaculty() {
+        return service.findLongestNameFaculty();
     }
 }

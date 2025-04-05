@@ -1,5 +1,6 @@
 package ru.hogwarts.school.school.Service;
 
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -8,12 +9,16 @@ import ru.hogwarts.school.school.entity.Faculty;
 import ru.hogwarts.school.school.repository.FacultyRepository;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 
 import static java.util.stream.Collectors.toList;
 
 @Service
+@Transactional
 public class FacultyService {
 
     private final FacultyRepository facultyRepository;
@@ -51,6 +56,15 @@ public class FacultyService {
         return facultyRepository.findAll().stream()
                 .filter(e -> Objects.equals(e.getColor(), color))
                 .collect(toList());
+    }
+
+    public Optional<String> findLongestNameFaculty() {
+        logger.info("Method called : findLongestNameFaculty on FacultyService");
+        try (Stream<String> names = facultyRepository.findAllNamesAsStream()) {
+            return names
+                    .filter(Objects::nonNull)
+                    .max(Comparator.comparingInt(String::length));
+        }
     }
 
 }
