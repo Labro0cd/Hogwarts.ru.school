@@ -1,5 +1,7 @@
 package ru.hogwarts.school.school.Service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.school.Exception.StudentNotFoundException;
 import ru.hogwarts.school.school.entity.Student;
@@ -17,49 +19,63 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
 
+    Logger logger = LoggerFactory.getLogger(StudentService.class);
+
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
     public Student createStudent(Student student) {
+        logger.info("Method called : createStudent on StudentService");
         return studentRepository.save(student);
     }
 
     public Student findStudent(long id) {
-        return studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException("Student wasn't found"));
+        return studentRepository.findById(id).orElseThrow(() ->{
+            logger.error("Student with id {} wasn't found", id);
+            return new StudentNotFoundException("Student wasn't found");
+        });
     }
 
     public void deleteStudent(long id) {
+        logger.info("Method called : deleteStudent on StudentService");
         studentRepository.deleteById(id);
     }
 
     public Student editStudent(Student student) {
+        logger.info("Method called : editStudent on StudentService");
         return studentRepository.save(student);
     }
 
     public Collection<Student> findAgeStudent(int age) {
+        logger.info("Method called : findAgeStudent on StudentService");
         return studentRepository.findAll().stream()
                 .filter(e -> e.getAge() == age)
                 .collect(toList());
     }
 
     public Collection<Student> findByAgeBetween(int min, int max) {
+        logger.info("Method called : findByAgeBetween on StudentService");
         return studentRepository.findByAgeBetween(min, max);
     }
 
     public Collection<Student> findAllStudent() {
+        logger.info("Method called : findAllStudent on StudentService");
         return studentRepository.findAll();
     }
 
-    public int countAllStudent(){
+    public int countAllStudent() {
+        logger.info("Method called : countAllStudent on StudentService");
         return studentRepository.countAllStudents();
     }
 
     public double avgAgeAllStudents() {
+        logger.info("Method called : avgAgeAllStudents on StudentService");
         return studentRepository.avgAgeAllStudents();
     }
 
     public List<Student> LastFiveStudents() {
+        logger.info("Method called : LastFiveStudents on StudentService");
         return studentRepository.lastFiveStudents();
     }
 }
