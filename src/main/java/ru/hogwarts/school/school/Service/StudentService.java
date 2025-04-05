@@ -96,4 +96,37 @@ public class StudentService {
                 .orElse(0.0);
         return avg;
     }
+
+    public void printStudentsInConsoleParallel() {
+        logger.info("Method called : printStudentsInConsoleParallel on StudentService");
+        System.out.println(studentRepository.findById(1L));
+        System.out.println(studentRepository.findById(2L));
+        new Thread(() -> {
+            System.out.println(studentRepository.findById(3L));
+            System.out.println(studentRepository.findById(4L));
+        }).start();
+
+        new Thread(() -> {
+            System.out.println(studentRepository.findById(5L));
+            System.out.println(studentRepository.findById(6L));
+        }).start();
+    }
+    public void printStudentsInConsoleSynchronized() {
+        logger.info("Method called : printStudentsInConsoleSynchronized on StudentService");
+        printStudentsInConsole(1L);
+        printStudentsInConsole(2L);
+        new Thread(() -> {
+            printStudentsInConsole(3L);
+            printStudentsInConsole(4L);
+        }).start();
+
+        new Thread(() -> {
+            printStudentsInConsole(5L);
+            printStudentsInConsole(6L);
+        }).start();
+    }
+
+    public synchronized void printStudentsInConsole(Long id) {
+        System.out.println(studentRepository.findById(id));
+    }
 }
