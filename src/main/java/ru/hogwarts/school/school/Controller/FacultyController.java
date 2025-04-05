@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.school.Exception.FacultyNotFoundException;
 import ru.hogwarts.school.school.Service.FacultyService;
 
-import ru.hogwarts.school.school.model.Faculty;
+import ru.hogwarts.school.school.entity.Faculty;
 
 
 import java.util.Collection;

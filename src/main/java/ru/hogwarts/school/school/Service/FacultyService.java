@@ -2,7 +2,7 @@ package ru.hogwarts.school.school.Service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.school.Exception.FacultyNotFoundException;
-import ru.hogwarts.school.school.model.Faculty;
+import ru.hogwarts.school.school.entity.Faculty;
 import ru.hogwarts.school.school.repository.FacultyRepository;
 
 import java.util.Collection;

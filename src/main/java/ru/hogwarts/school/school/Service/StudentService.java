@@ -2,10 +2,12 @@ package ru.hogwarts.school.school.Service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.school.Exception.StudentNotFoundException;
-import ru.hogwarts.school.school.model.Faculty;
-import ru.hogwarts.school.school.model.Student;
+import ru.hogwarts.school.school.entity.Student;
 import ru.hogwarts.school.school.repository.StudentRepository;
+
+import javax.swing.plaf.PanelUI;
 import java.util.Collection;
+import java.util.List;
 
 
 import static java.util.stream.Collectors.toList;
@@ -18,7 +20,6 @@ public class StudentService {
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
-
 
     public Student createStudent(Student student) {
         return studentRepository.save(student);
@@ -38,7 +39,7 @@ public class StudentService {
 
     public Collection<Student> findAgeStudent(int age) {
         return studentRepository.findAll().stream()
-                .filter(e -> e.getAge()==age)
+                .filter(e -> e.getAge() == age)
                 .collect(toList());
     }
 
@@ -48,5 +49,17 @@ public class StudentService {
 
     public Collection<Student> findAllStudent() {
         return studentRepository.findAll();
+    }
+
+    public int countAllStudent(){
+        return studentRepository.countAllStudents();
+    }
+
+    public double avgAgeAllStudents() {
+        return studentRepository.avgAgeAllStudents();
+    }
+
+    public List<Student> LastFiveStudents() {
+        return studentRepository.lastFiveStudents();
     }
 }
