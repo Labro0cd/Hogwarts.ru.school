@@ -83,4 +83,14 @@ public class StudentController {
     public double findAverageStudentAge() {
         return service.findMiddleAge();
     }
+
+    @GetMapping("print-parallel")
+    public void printParallel() {
+        service.printStudentsInConsoleParallel();
+    }
+
+    @GetMapping("print-synchronized")
+    public void printSynchronized() {
+        service.printStudentsInConsoleSynchronized();
+    }
 }
